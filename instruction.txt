@@ -1,0 +1,151 @@
+https://www.youtube.com/watch?v=-SI0xQgXWgU 
+
+Install jetpack 4.4/dual boot ubuntu 18.04
+
+Set up vector to have streamer with correct config
+
+
+sudo apt update
+sudo apt install python3-pip
+
+//after install most packages run 
+sudo apt-get update --fix-missing
+sudo dpkg –configure -a
+sudo apt-get install -f
+
+//check .mp4 file length
+for f in /mnt/vectordir/*.mp4; do ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $f; done
+
+
+Set static ip: go to top right copy existing settings
+
+For host flash dell visit https://itsfoss.com/could-not-get-lock-error/ 
+
+
+Delete all ssh keys
+
+https://github.com/NVIDIA-AI-IOT/deepstream_lpr_app
+https://developer.nvidia.com/tlt-get-started 
+
+
+Install packages: use “sudo pip3 install”
+    
+    Php
+    Sshfs
+    Shutils
+Numpy
+Ffmpeg - must be done through ‘apt-get install’
+
+Get code from gethub, make a installable version
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Set up apache:
+
+sudo apt install apache2
+
+sudo ufw app list
+
+You will see a list of the application profiles:
+Output
+Available applications:
+  Apache
+  Apache Full
+  Apache Secure
+  OpenSSH
+
+sudo ufw allow 'Apache'
+sudo ufw status
+sudo systemctl status apache2
+sudo systemctl stop/start/restart apache2
+
+Type in IP in browser to see of working, will be stored under var/www/
+
+
+Rudi config:
+
+
+Give chmod 777 to
+/mnt/Perms.sh
+/mnt/Streamer.py
+/mnt
+/mnt/Combiner.py
+
+
+For mount.sh --- must run 
+chmod +x MigrateNshell.sh 
+in order to use ./mount.sh rather than bash mount.sh
+
+
+
+
+
+
+
+Screen sharing:
+    sudo nano /usr/share/glib-2.0/schemas/org.gnome.Vino.gschema.xm
+    
+    -Add to file 
+    
+    <key name=’enabled’ type=’b’>
+<summary>Enable remote access to the desktop</summary>
+<description>
+If true, allows remote access to the desktop via the RFB
+protocol. Users on remote machines may then connect to the
+desktop using a VNC viewer.
+</description>
+<default>true</default>
+</key>
+
+-Then run commands
+
+sudo glib-compile-schemas /usr/share/glib-2.0/schemas
+gsettings set org.gnome.Vino require-encryption false
+gsettings set org.gnome.Vino prompt-enabled false
+
+Firewall install
+
+https://www.digitalocean.com/community/tutorials/how-to-setup-a-firewall-with-ufw-on-an-ubuntu-and-debian-cloud-server 
+
+sudo apt-get install ufw
+sudo ufw status
+sudo gedit /etc/default/ufw
+sudo ufw allow from 192.168.1.201
+
+
+
+
+
+
+
+
+
+
+
+VS code installation:
+git clone https://github.com/JetsonHacksNano/installVSCode.git
+cd installVSCode
+./installVSCodeWithPython.sh
+code –install-extension ms-python.python –force
+
+
+
+
+
