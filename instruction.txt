@@ -94,7 +94,13 @@ chmod +x MigrateNshell.sh
 in order to use ./mount.sh rather than bash mount.sh
 
 
+Screen sharing for Xavier
 
+cd /usr/lib/systemd/user/graphical-session.target.wants
+sudo ln -s ../vino-server.service ./.
+gsettings set org.gnome.Vino prompt-enabled false
+gsettings set org.gnome.Vino require-encryption false
+sudo reboot
 
 
 
@@ -105,14 +111,14 @@ Screen sharing:
     -Add to file 
     
     <key name=’enabled’ type=’b’>
-<summary>Enable remote access to the desktop</summary>
-<description>
-If true, allows remote access to the desktop via the RFB
-protocol. Users on remote machines may then connect to the
-desktop using a VNC viewer.
-</description>
-<default>true</default>
-</key>
+       <summary>Enable remote access to the desktop</summary>
+       <description>
+       If true, allows remote access to the desktop via the RFB
+       protocol. Users on remote machines may then connect to the
+       desktop using a VNC viewer.
+       </description>
+       <default>true</default>
+    </key>
 
 -Then run commands
 
