@@ -1,4 +1,4 @@
-https://www.youtube.com/watch?v=-SI0xQgXWgU 
+
 
 Install jetpack 4.4/dual boot ubuntu 18.04
 
@@ -13,33 +13,31 @@ sudo apt-get update --fix-missing
 sudo dpkg –configure -a
 sudo apt-get install -f
 
-//check .mp4 file length
+check .mp4 file length
 for f in /mnt/vectordir/*.mp4; do ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $f; done
 
 
 Set static ip: go to top right copy existing settings
-
+------
+RESOURCES
 For host flash dell visit https://itsfoss.com/could-not-get-lock-error/ 
-
-
-Delete all ssh keys
-
 https://github.com/NVIDIA-AI-IOT/deepstream_lpr_app
 https://developer.nvidia.com/tlt-get-started 
+---
 
+DELETE SSH KEYS
+rm -rf /home/vivek/.ssh 
 
-Install packages: use “sudo pip3 install”
-    
+---
+
+Install packages: use “sudo pip3 install”   
     Php
     Sshfs
     Shutils
 Numpy
 Ffmpeg - must be done through ‘apt-get install’
 
-Get code from gethub, make a installable version
-
-
------
+---
 FIX VNC HEADLESS DISPLAY
 
 sudo gedit /etc/X11/xorg.conf
@@ -82,31 +80,16 @@ Section "Screen"
        Virtual 1280 800
    EndSubSection
 EndSection
-
 """
------
 
 
+---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Set up apache:
+APACHE SERVER
 
 sudo apt install apache2
-
 sudo ufw app list
+
 
 You will see a list of the application profiles:
 Output
@@ -123,32 +106,22 @@ sudo systemctl stop/start/restart apache2
 
 Type in IP in browser to see of working, will be stored under var/www/
 
-
-Rudi config:
-
-
-Give chmod 777 to
-/mnt/Perms.sh
-/mnt/Streamer.py
-/mnt
-/mnt/Combiner.py
-
+---
 
 For mount.sh --- must run 
 chmod +x MigrateNshell.sh 
 in order to use ./mount.sh rather than bash mount.sh
 
-
-Screen sharing for Xavier
+---
+VNC FOR JESTON XAVIER
 
 cd /usr/lib/systemd/user/graphical-session.target.wants
 sudo ln -s ../vino-server.service ./.
 gsettings set org.gnome.Vino prompt-enabled false
 gsettings set org.gnome.Vino require-encryption false
 sudo reboot
-
-
-
+---
+ADD ENABLE SCREEN SHARING BUTTON
 
 Screen sharing:
     sudo nano /usr/share/glib-2.0/schemas/org.gnome.Vino.gschema.xm
@@ -170,7 +143,7 @@ Screen sharing:
 sudo glib-compile-schemas /usr/share/glib-2.0/schemas
 gsettings set org.gnome.Vino require-encryption false
 gsettings set org.gnome.Vino prompt-enabled false
-
+---
 Firewall install
 
 https://www.digitalocean.com/community/tutorials/how-to-setup-a-firewall-with-ufw-on-an-ubuntu-and-debian-cloud-server 
@@ -179,17 +152,7 @@ sudo apt-get install ufw
 sudo ufw status
 sudo gedit /etc/default/ufw
 sudo ufw allow from 192.168.1.201
-
-
-
-
-
-
-
-
-
-
-
+---
 VS code installation:
 git clone https://github.com/JetsonHacksNano/installVSCode.git
 cd installVSCode
