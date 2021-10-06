@@ -27,6 +27,8 @@ https://developer.nvidia.com/tlt-get-started
 
 DELETE SSH KEYS
 rm -rf /home/vivek/.ssh 
+or are stored in this directory
+/.ssh/known_hosts
 
 ---
 
