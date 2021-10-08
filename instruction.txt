@@ -162,6 +162,41 @@ cd installVSCode
 code –install-extension ms-python.python –force
 
 
+---
+TRANSPORT COMMANDS
+
+gst-launch-1.0 -e rtspsrc location=rtsp://192.168.1.201:8554/test ! rtph264depay ! h264parse ! splitmuxsink location=camera%d.mp4 max-size-time=10000000000 muxer-factory=matroskamux muxer-properties="properties,streamable=true"
+
+gst-launch-1.0 -e rtspsrc location=rtsp://admin:Jenoptik33478@192.168.1.220/h264/stream1 ! rtph264depay ! h264parse ! splitmuxsink location=media/mari/M/video_recs/camera%d.mp4 max-size-time=600000000000 muxer-factory=matroskamux muxer-properties="properties,streamable=true"
+
+
+
+
+ffmpeg -rtsp_transport tcp -i rtsp://192.168.1.201:8554/test -c copy -f segment -strftime 1 -segment_time 10 Videos/Vector_10min_recs/%Y-%m-%d-%H-%M-%S.mp4
+
+
+
+dpkg -l | grep cuda
+
+ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i rtsp://admin:Jenoptik33478@192.168.1.220/h264/stream1 -c:v h264_nvenc -b:v 5M Videos/Vector_10min_recs/%Y-%m-%d-%H-%M-%S.mp4
+
+
+sudo mount -t cifs -o user=Mari,password=Jenoptik33478 //192.168.1.163/Main /Videos/Flir_recs
+
+
+location=rtsp://admin:admin@192.168.1.100:554/videoinput_1:0/h264_2/media.stm
+
+gst-launch-1.0 -e rtspsrc location=rtsp://admin:admin@192.168.1.100:554/videoinput_1:0/h264_2/media.stm ! rtph264depay ! h264parse ! splitmuxsink location=camera%d.mp4 max-size-time=600000000000 muxer-factory=matroskamux muxer-properties="properties,streamable=true"
+
+
+ffmpeg -i rtsp://admin:admin@192.168.1.100:554/videoinput_1:0/h264_2/media.stm -c copy -f segment -strftime 1 -segment_time 10 Videos/%Y-%m-%d-%H-%M-%S.mp4
+
+ffmpeg -fflags +genpts -use_wallclock_as_timestamps 1 -i rtsp://admin:admin@192.168.1.100:554/videoinput_1:0/h264_2/media.stm -c copy -map 0 -f segment -segment_time 600 -segment_format mp4 "Videos/capture-%03d.mp4"
+
+
+---
+
+
 
 
 
