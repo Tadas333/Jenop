@@ -1,11 +1,15 @@
 import cv2
 import numpy as np
-import time
+import timeit
 import argparse
 import glob
 
-#path1 = r"C:/Users/tadas.orentas/Desktop/PROJECTS/Maritime/Imige_saver/inputs/sep_4/*.mp4"
+
 path1 = r"C:/Users/tadas.orentas/Desktop/PROJECTS/Maritime/Imige_saver/inputs/sep_4/*.mp4"
+#path1 = r"C:/Users/tadas.orentas/Desktop/PROJECTS/Maritime/Imige_saver/inputs/sep_4/camera9.mp4"
+
+#use this for the frame names, so if you already did camera0.mp4 for example you would change it to 1 so it would start count from 1 not 0
+start_number = 0
 
 LABELS_FILE='C:/Users/tadas.orentas/Desktop/PROJECTS/Maritime/Imige_saver/coco.names'
 CONFIG_FILE='yolov3.cfg'
@@ -16,7 +20,8 @@ LABELS = open(LABELS_FILE).read().strip().split("\n")
 
 
 for file in glob.glob(path1):
-    start = time.time()
+    start_number = start_number+1
+    start = timeit.default_timer()
     print(start)
     if file.endswith(".mp4"):
         vidcap = cv2.VideoCapture(file)
@@ -53,7 +58,7 @@ for file in glob.glob(path1):
                 blob = cv2.dnn.blobFromImage(frame, 1 / 255.0, (832, 832),
                     swapRB=True, crop=False)
                 net.setInput(blob)
-                start = time.time()
+                
                 layerOutputs = net.forward(ln)
                 
 
@@ -83,7 +88,7 @@ for file in glob.glob(path1):
                             # probability is greater than the minimum probability
                             if confidence > CONFIDENCE_THRESHOLD:
                                 #cv2.imwrite("outputs/img_%3d.jpg" % count, image)
-                                cv2.imwrite("outputs/img13_%3d.jpg" % i, frame)
+                                cv2.imwrite("outputs/img" + str(start_number) + "_%3d.jpg" % i, frame)
                                 
                                 #args["input"]
                                 print("saved")
@@ -93,5 +98,5 @@ for file in glob.glob(path1):
 
                 #cv2.imwrite("img_%3d.jpg" % count, image)   
 
-end = time.time()                        
-print(end-start)
+    stop = timeit.default_timer()                      
+    print('Time: ', stop - start) 
