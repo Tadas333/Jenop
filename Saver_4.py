@@ -5,8 +5,8 @@ import argparse
 import glob
 
 
-path1 = r"C:/Users/tadas.orentas/Desktop/PROJECTS/Maritime/Imige_saver/inputs/sep_4/*.mp4"
-#path1 = r"C:/Users/tadas.orentas/Desktop/PROJECTS/Maritime/Imige_saver/inputs/sep_4/camera9.mp4"
+path1 = r"C:/Users/tadas.orentas/Desktop/PROJECTS/Maritime/Imige_saver/inputs/sep_4/v/*.mp4"
+#path1 = r"C:/Users/tadas.orentas/Desktop/PROJECTS/Maritime/Imige_saver/inputs/sep_4/vid1.mp4"
 
 #use this for the frame names, so if you already did camera0.mp4 for example you would change it to 1 so it would start count from 1 not 0
 start_number = 0
@@ -38,6 +38,8 @@ for file in glob.glob(path1):
             if i % 18 == 0: # display only one third of the frames, you can change this parameter according to your needs
                 ret, frame = vidcap.retrieve() 
                 print(i)
+                if frame is None:
+                    break
                 
                 np.random.seed(4)
                 COLORS = np.random.randint(0, 255, size=(len(LABELS), 3),
@@ -97,6 +99,6 @@ for file in glob.glob(path1):
 
 
                 #cv2.imwrite("img_%3d.jpg" % count, image)   
-
+        
     stop = timeit.default_timer()                      
     print('Time: ', stop - start) 
