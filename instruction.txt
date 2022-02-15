@@ -171,6 +171,8 @@ Screen sharing:
 sudo glib-compile-schemas /usr/share/glib-2.0/schemas
 gsettings set org.gnome.Vino require-encryption false
 gsettings set org.gnome.Vino prompt-enabled false
+sudo systemctl restart display-manager
+
 ---
 Firewall install
 
