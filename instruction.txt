@@ -236,8 +236,10 @@ sudo apt-get install nano
 
 https://pyimagesearch.com/2020/02/03/how-to-use-opencvs-dnn-module-with-nvidia-gpus-cuda-and-cudnn/
 
+sudo apt-get -y purge libopencv-dev libopencv-python libopencv-samples libopencv*
+sudo apt-get -y update
 
-
+192.168.1.122
 
 
 
