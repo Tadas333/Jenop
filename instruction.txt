@@ -239,6 +239,9 @@ https://pyimagesearch.com/2020/02/03/how-to-use-opencvs-dnn-module-with-nvidia-g
 https://forums.developer.nvidia.com/t/cudnn-8-0-of-jp4-4p-recognized-under-7-5-version-by-opencv4-2-and-4-3/128167
 
 https://docs.nvidia.com/deeplearning/cudnn/install-guide/index.html
+https://forums.developer.nvidia.com/t/opencv-cuda-support/117006/10
+https://forums.developer.nvidia.com/t/jetson-nano-vnc-headless-connections/77399
+https://gist.github.com/andrewssobral/ae77483b8fa147cce98b5b92f1a5ae17
 
 sudo apt-get -y purge libopencv-dev libopencv-python libopencv-samples libopencv*
 sudo apt-get -y update
