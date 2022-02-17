@@ -246,6 +246,7 @@ sudo apt-get -y update
 192.168.1.122
 
 xdpyinfo
+hostnamectl 
 
 
 
