@@ -233,6 +233,9 @@ pip3 install pillow --global-option="build_ext" --global-option="--enable-zlib" 
 
 sudo apt-get install nano
 
+https://hs.forecr.io/hubfs/BLOG%20ATTACHMENTS/How%20to%20Install%20OpenCV%20with%20CUDA%20Support%20on%20Jetson%20Modules/OpenCV_4_4_0_for_Jetson.zip
+
+sudo ./opencv-install.sh
 
 https://pyimagesearch.com/2020/02/03/how-to-use-opencvs-dnn-module-with-nvidia-gpus-cuda-and-cudnn/
 
