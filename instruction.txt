@@ -168,10 +168,16 @@ Screen sharing:
 
 -Then run commands
 
-sudo glib-compile-schemas /usr/share/glib-2.0/schemas
-gsettings set org.gnome.Vino require-encryption false
+cd /usr/lib/systemd/user/graphical-session.target.wants
+sudo ln -s ../vino-server.service ./.
+
+export DISPLAY=:0
+gsettings set org.gnome.Vino enabled true
 gsettings set org.gnome.Vino prompt-enabled false
+gsettings set org.gnome.Vino require-encryption false
+sudo glib-compile-schemas /usr/share/glib-2.0/schemas
 sudo systemctl restart display-manager
+/usr/lib/vino/vino-server &
 
 ---
 Firewall install
