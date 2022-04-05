@@ -252,6 +252,9 @@ https://forums.developer.nvidia.com/t/opencv-cuda-support/117006/10
 https://forums.developer.nvidia.com/t/jetson-nano-vnc-headless-connections/77399
 https://gist.github.com/andrewssobral/ae77483b8fa147cce98b5b92f1a5ae17
 
+"MOnitering "
+http://www.seeedstudio.com/blog/2020/07/09/monitor-gpu-cpu-and-other-stats-on-jetson-nano-xavier-nx-tx1-tx2/
+
 sudo apt-get -y purge libopencv-dev libopencv-python libopencv-samples libopencv*
 sudo apt-get -y update
 
