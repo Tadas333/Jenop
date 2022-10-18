@@ -1,0 +1,272 @@
+Install jetpack 4.4/dual boot ubuntu 18.04
+
+Set up vector to have streamer with correct config
+
+
+sudo apt update
+sudo apt install python3-pip
+
+//after install most packages run 
+sudo apt-get update --fix-missing
+sudo dpkg –configure -a
+sudo apt-get install -f
+
+check .mp4 file length
+for f in /mnt/vectordir/*.mp4; do ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $f; done
+
+
+Set static ip: go to top right copy existing settings
+------
+RESOURCES
+For host flash dell visit https://itsfoss.com/could-not-get-lock-error/ 
+https://github.com/NVIDIA-AI-IOT/deepstream_lpr_app
+https://developer.nvidia.com/tlt-get-started 
+---
+
+DELETE SSH KEYS
+rm -rf /home/vivek/.ssh 
+or are stored in this directory
+/.ssh/known_hosts
+
+---
+
+Install packages: use “sudo pip3 install”   
+    Php
+    Sshfs
+    Shutils
+Numpy
+Ffmpeg - must be done through ‘apt-get install’
+
+---
+FIX VNC HEADLESS DISPLAY
+
+sudo gedit /etc/X11/xorg.conf
+
+origianal
+
+
+"""
+# Copyright (c) 2017, NVIDIA CORPORATION.  All Rights Reserved.
+#
+# This is the minimal configuration necessary to use the Tegra driver.
+# Please refer to the xorg.conf man page for more configuration
+# options provided by the X server, including display-related options
+# provided by RandR 1.2 and higher.
+
+# Disable extensions not useful on Tegra.
+Section "Module"
+    Disable     "dri"
+    SubSection  "extmod"
+    Option  "omit xfree86-dga"
+    EndSubSection
+EndSection
+
+Section "Device"
+    Identifier  "Tegra0"
+    Driver      "nvidia"
+    Option      "AllowEmptyInitialConfiguration" "true"
+EndSection
+"""
+
+"""
+# Copyright (c) 2011-2015 NVIDIA CORPORATION.  All Rights Reserved.
+
+#
+# This is the minimal configuration necessary to use the Tegra driver.
+# Please refer to the xorg.conf man page for more configuration
+# options provided by the X server, including display-related options
+# provided by RandR 1.2 and higher.
+
+# Disable extensions not useful on Tegra.
+Section "Module"
+    
+Disable     "dri"
+    SubSection  "extmod"
+        Option  "omit xfree86-dga"
+    EndSubSection
+EndSection
+
+Section "Device"
+    Identifier  "Tegra0"
+    Driver      "nvidia"
+    Option      "AllowEmptyInitialConfiguration" "true"
+EndSection
+
+Section "Monitor"
+   Identifier "DSI-0"
+   Option    "Ignore"
+EndSection
+
+Section "Screen"
+   Identifier    "Default Screen"
+   Monitor        "Configured Monitor"
+   Device        "Default Device"
+   SubSection "Display"
+       Depth    24
+       Virtual 1280 800
+   EndSubSection
+EndSection
+"""
+
+
+---
+
+APACHE SERVER
+
+sudo apt install apache2
+sudo ufw app list
+
+
+You will see a list of the application profiles:
+Output
+Available applications:
+  Apache
+  Apache Full
+  Apache Secure
+  OpenSSH
+
+sudo ufw allow 'Apache'
+sudo ufw status
+sudo systemctl status apache2
+sudo systemctl stop/start/restart apache2
+
+Type in IP in browser to see of working, will be stored under var/www/
+
+---
+
+For mount.sh --- must run 
+chmod +x MigrateNshell.sh 
+in order to use ./mount.sh rather than bash mount.sh
+
+---
+VNC FOR JESTON XAVIER
+
+cd /usr/lib/systemd/user/graphical-session.target.wants
+sudo ln -s ../vino-server.service ./.
+gsettings set org.gnome.Vino prompt-enabled false
+gsettings set org.gnome.Vino require-encryption false
+sudo reboot
+---
+ADD ENABLE SCREEN SHARING BUTTON
+
+Screen sharing:
+    sudo nano /usr/share/glib-2.0/schemas/org.gnome.Vino.gschema.xml
+    
+    -Add to file 
+    
+    <key name=’enabled’ type=’b’>
+       <summary>Enable remote access to the desktop</summary>
+       <description>
+       If true, allows remote access to the desktop via the RFB
+       protocol. Users on remote machines may then connect to the
+       desktop using a VNC viewer.
+       </description>
+       <default>true</default>
+    </key>
+
+-Then run commands
+
+cd /usr/lib/systemd/user/graphical-session.target.wants
+sudo ln -s ../vino-server.service ./.
+
+export DISPLAY=:0
+gsettings set org.gnome.Vino enabled true
+gsettings set org.gnome.Vino prompt-enabled false
+gsettings set org.gnome.Vino require-encryption false
+sudo glib-compile-schemas /usr/share/glib-2.0/schemas
+sudo systemctl restart display-manager
+/usr/lib/vino/vino-server &
+
+---
+Firewall install
+
+https://www.digitalocean.com/community/tutorials/how-to-setup-a-firewall-with-ufw-on-an-ubuntu-and-debian-cloud-server 
+
+sudo apt-get install ufw
+sudo ufw status
+sudo gedit /etc/default/ufw
+sudo ufw allow from 192.168.1.201
+---
+VS code installation:
+git clone https://github.com/JetsonHacksNano/installVSCode.git
+cd installVSCode
+./installVSCodeWithPython.sh
+code –install-extension ms-python.python –force
+
+
+---
+TRANSPORT COMMANDS
+
+gst-launch-1.0 -e rtspsrc location=rtsp://192.168.1.201:8554/test ! rtph264depay ! h264parse ! splitmuxsink location=camera%d.mp4 max-size-time=10000000000 muxer-factory=matroskamux muxer-properties="properties,streamable=true"
+
+gst-launch-1.0 -e rtspsrc location=rtsp://admin:Jenoptik33478@192.168.1.220/h264/stream1 ! rtph264depay ! h264parse ! splitmuxsink location=media/mari/M/video_recs/camera%d.mp4 max-size-time=600000000000 muxer-factory=matroskamux muxer-properties="properties,streamable=true"
+
+gst-launch-1.0 -e rtspsrc location=rtsp://admin:Jenoptik33478@192.168.1.220/h264/stream1 ! rtph264depay ! h264parse ! splitmuxsink location=/run/user/1000/gvfs/smb-share:server=mari_storage_2.local,share=recordings/Flir/video/4k/pipe%d.mp4 max-size-time=1200000000000 muxer-factory=matroskamux muxer-properties="properties,streamable=true"
+
+gst-launch-1.0 -e rtspsrc location=rtsp://admin:Jenoptik33478@192.168.1.220/h264/stream3 ! rtph264depay ! h264parse ! splitmuxsink location=/run/user/1000/gvfs/smb-share:server=mari_storage_2.local,share=recordings/Flir/video/thermal/camera%d.mp4 max-size-time=1200000000000 muxer-factory=matroskamux muxer-properties="properties,streamable=true"
+
+
+
+
+ffmpeg -rtsp_transport tcp -i rtsp://192.168.1.201:8554/test -c copy -f segment -strftime 1 -segment_time 10 Videos/Vector_10min_recs/%Y-%m-%d-%H-%M-%S.mp4
+
+
+
+dpkg -l | grep cuda
+
+ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i rtsp://admin:Jenoptik33478@192.168.1.220/h264/stream1 -c:v h264_nvenc -b:v 5M Videos/Vector_10min_recs/%Y-%m-%d-%H-%M-%S.mp4
+
+
+sudo mount -t cifs -o user=Mari,password=Jenoptik33478 //192.168.1.163/Main /Videos/Flir_recs
+
+
+location=rtsp://admin:admin@192.168.1.100:554/videoinput_1:0/h264_2/media.stm
+
+gst-launch-1.0 -e rtspsrc location=rtsp://admin:admin@192.168.1.100:554/videoinput_1:0/h264_2/media.stm ! rtph264depay ! h264parse ! splitmuxsink location=camera%d.mp4 max-size-time=600000000000 muxer-factory=matroskamux muxer-properties="properties,streamable=true"
+
+
+ffmpeg -i rtsp://admin:admin@192.168.1.100:554/videoinput_1:0/h264_2/media.stm -c copy -f segment -strftime 1 -segment_time 10 Videos/%Y-%m-%d-%H-%M-%S.mp4
+
+ffmpeg -fflags +genpts -use_wallclock_as_timestamps 1 -i rtsp://admin:admin@192.168.1.100:554/videoinput_1:0/h264_2/media.stm -c copy -map 0 -f segment -segment_time 600 -segment_format mp4 "Videos/capture-%03d.mp4"
+
+
+---
+
+sudo apt update
+sudo apt install python3-pip
+sudo pip3 install --user imutils
+sudo apt install libjpeg8-dev zlib1g-dev libtiff-dev libfreetype6 libfreetype6-dev libwebp-dev libopenjp2-7-dev libopenjp2-7-dev -y
+pip install -U matplotlib
+
+pip3 install pillow --global-option="build_ext" --global-option="--enable-zlib" --global-option="--enable-jpeg" --global-option="--enable-tiff" --global-option="--enable-freetype" --global-option="--enable-webp" --global-option="--enable-webpmux" --global-option="--enable-jpeg2000"
+
+sudo apt-get install nano
+
+sudo -H pip install -U jetson-stats
+
+https://hs.forecr.io/hubfs/BLOG%20ATTACHMENTS/How%20to%20Install%20OpenCV%20with%20CUDA%20Support%20on%20Jetson%20Modules/OpenCV_4_4_0_for_Jetson.zip
+
+sudo ./opencv-install.sh
+
+pkg-config --modversion opencv
+
+https://pyimagesearch.com/2020/02/03/how-to-use-opencvs-dnn-module-with-nvidia-gpus-cuda-and-cudnn/
+
+https://forums.developer.nvidia.com/t/cudnn-8-0-of-jp4-4p-recognized-under-7-5-version-by-opencv4-2-and-4-3/128167
+
+https://docs.nvidia.com/deeplearning/cudnn/install-guide/index.html
+https://forums.developer.nvidia.com/t/opencv-cuda-support/117006/10
+https://forums.developer.nvidia.com/t/jetson-nano-vnc-headless-connections/77399
+https://gist.github.com/andrewssobral/ae77483b8fa147cce98b5b92f1a5ae17
+
+"MOnitering "
+http://www.seeedstudio.com/blog/2020/07/09/monitor-gpu-cpu-and-other-stats-on-jetson-nano-xavier-nx-tx1-tx2/
+
+sudo apt-get -y purge libopencv-dev libopencv-python libopencv-samples libopencv*
+sudo find / -name " *opencv* " -exec rm -i {} \;
+sudo apt-get -y update
+
+192.168.1.122
+
+xdpyinfo
+hostnamectl
