@@ -271,7 +271,10 @@ sudo apt-get -y update
 xdpyinfo
 hostnamectl
 
-install cron 
+install cifs and samba
+sudo apt-get install cron
+sudo apt-get install postfix
+
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 # 
