@@ -1,0 +1,83 @@
+sudo apt update
+sudo apt install python3-pip
+
+ADD ENABLE SCREEN SHARING BUTTON
+
+Screen sharing:
+    sudo nano /usr/share/glib-2.0/schemas/org.gnome.Vino.gschema.xml
+    
+    -Add to file 
+    
+    <key name=’enabled’ type=’b’>
+       <summary>Enable remote access to the desktop</summary>
+       <description>
+       If true, allows remote access to the desktop via the RFB
+       protocol. Users on remote machines may then connect to the
+       desktop using a VNC viewer.
+       </description>
+       <default>true</default>
+    </key>
+
+export DISPLAY=:0
+gsettings set org.gnome.Vino enabled true
+gsettings set org.gnome.Vino prompt-enabled false
+gsettings set org.gnome.Vino require-encryption false
+sudo glib-compile-schemas /usr/share/glib-2.0/schemas
+sudo systemctl restart display-manager
+
+git clone https://github.com/JetsonHacksNano/installVSCode.git
+cd installVSCode
+./installVSCodeWithPython.sh
+code –install-extension ms-python.python –force
+
+pip3 install pillow --global-option="build_ext" --global-option="--enable-zlib" --global-option="--enable-jpeg" --global-option="--enable-tiff" --global-option="--enable-freetype" --global-option="--enable-webp" --global-option="--enable-webpmux" --global-option="--enable-jpeg2000"
+
+sudo apt-get install nano
+
+sudo -H pip install -U jetson-stats
+
+sudo apt-get install zlib1g
+
+#cuda
+sudo apt install libtbb2 libtbb-dev
+
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/arm64/cuda-ubuntu1804.pin
+
+sudo mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
+
+wget https://developer.download.nvidia.com/compute/cuda/11.6.0/local_installers/cuda-repo-ubuntu1804-11-6-local_11.6.0-510.39.01-1_arm64.deb
+
+sudo dpkg -i cuda-repo-ubuntu1804-11-6-local_11.6.0-510.39.01-1_arm64.deb
+sudo apt-key add /var/cuda-repo-ubuntu1804-11-6-local/7fa2af80.pub
+sudo apt-get update
+sudo apt-get -y install cuda
+
+#cudnn
+wget https://developer.nvidia.com/compute/cudnn/secure/8.4.0/local_installers/11.6/cudnn-local-repo-ubuntu1804-8.4.0.27_1.0-1_arm64.deb
+
+https://developer.nvidia.com/compute/cudnn/secure/8.4.0/local_installers/11.6/cudnn-local-repo-ubuntu1804-8.4.0.27_1.0-1_arm64.deb
+
+sudo dpkg -i cudnn-local-repo-ubuntu1804-8.4.0.27_1.0-1_arm64.deb
+
+sudo apt --fix-broken install
+
+
+
+cmake -D CMAKE_BUILD_TYPE=RELEASE \
+	-D CMAKE_INSTALL_PREFIX=/usr/local \
+	-D INSTALL_PYTHON_EXAMPLES=ON \
+	-D INSTALL_C_EXAMPLES=OFF \
+	-D OPENCV_ENABLE_NONFREE=ON \
+	-D WITH_CUDA=ON \
+	-D WITH_CUDNN=ON \
+	-D OPENCV_DNN_CUDA=ON \
+	-D ENABLE_FAST_MATH=1 \
+	-D CUDA_FAST_MATH=1 \
+	-D CUDA_ARCH_BIN=6.2 \
+	-D WITH_CUBLAS=1 \
+	-D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
+	-D HAVE_opencv_python3=ON \
+	-D PYTHON_EXECUTABLE=~/usr/bin/python \
+	-D BUILD_EXAMPLES=ON ..
+
+
