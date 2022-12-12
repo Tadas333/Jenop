@@ -281,3 +281,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 @reboot sleep 10 && sudo bash /home/mari/auto-boot
 # To define the time you can provide concrete values for
 
+
+for close to reset system
+https://askubuntu.com/questions/859448/is-there-a-command-to-factory-reset-ubuntu
+
