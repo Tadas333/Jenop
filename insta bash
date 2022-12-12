@@ -190,3 +190,5 @@ sudo apt-get update
 
 echo "Congratulations!"
 echo "You've successfully installed OpenCV 4.6.0 on your Jetson Nano"
+
+https://qengineering.eu/install-opencv-4.5-on-jetson-nano.html
